@@ -1,0 +1,29 @@
+# creation of pods using yml file
+
+# Required fields:-
+
+# apiVersion:version of k8s api using to create objects (e.g. v1(for pods),apps/v1Beta etc)
+
+# kind:it can take values as follows
+# Pod->v1
+# Service->v1
+# ReplicaSet->apps/v1
+# Deployment->apps/v1
+
+# metadate: it contains information about the pod like name etc, it is a dictionery,
+#           labels can have any key value pairs as needed
+
+# spec: depending on the type of object (pod in this case) we are trying to make
+# we provide extra info in specs it is a dictionery which expects a lsit of containers
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nik-pod
+  labels:
+    app: my-app
+    type: frontend
+spec:
+  containers:
+    - name: ngnx
+      image: nginx #write the name of the image as in docker repo

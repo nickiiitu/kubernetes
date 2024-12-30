@@ -1,0 +1,32 @@
+# ReplicaSet is similar to controller , controller is older tech
+
+# SELECTOR: it helps identify replica set which pods fall under it
+# asume there are pods created before creating replica set , then those pod that have same labels as replica set
+# will also be managed by this replica
+
+# selector is a required field in replica set but not in replication controller though it is present
+# when we don't specify selector in controller it assumes it to be similar to those
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: ngnx-replica
+  labels:
+    env: Prod
+spec:
+  template:
+    metadata:
+      name: ngnx-2
+      labels:
+        env: Prod
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      env: prod
+# to scale the replica we can
+# 1. change the replica number in file and run kubectl replace -f fileName
+# 2. run kubectl scale --replicas=9 -f fileName (this does not make any changes in file but inc the copies)

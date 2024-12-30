@@ -1,0 +1,32 @@
+# REPLICA: To avoid single point failures and maintain high availability we need replicas
+
+# REPLICATION_CONTROLLER: they help us in running multiple copies of the replica , at any point of time
+# if one of the replicas fail, controller deploys another pod and maintain the number of replicas stated
+# if we want replica=3 and 1 is already running with one of the same labels as present in controller
+# metadata than controller will make 2 more replicas by reading to template
+
+# Template: it is the blue print of pod used by controller when it creates new replica
+
+# deleting replication controller deletes all replica with the label that is defined in controller
+
+# replication controller can work across nodes to maintain the number of replicas mentioned
+
+# it helps in load balancing
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: ngnx-replica
+  labels:
+    env: Prod
+spec:
+  template:
+    metadata:
+      name: ngnx-2
+      labels:
+        env: Prod
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+  replicas: 3
