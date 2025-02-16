@@ -15,15 +15,19 @@
 
 # spec: depending on the type of object (pod in this case) we are trying to make
 # we provide extra info in specs it is a dictionery which expects a lsit of containers
+# containerPort: specifing this creates the required networking mappings and expose this port for external traffic
 
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nik-pod
+  name: nginx-pod
+  namespace: nginx
   labels:
-    app: my-app
-    type: frontend
+    env: prod
+    type: pod
 spec:
   containers:
     - name: ngnx
-      image: nginx #write the name of the image as in docker repo
+      image: nginx:latest #write the name of the image as in docker repo
+      ports:
+        - containerPort: 80 # if we don't specify this it assumes 80 as default bcz of internal config but we will not be able to access this pod from outside cluster

@@ -1,0 +1,23 @@
+kind: DeamonSet
+apiVersion: apps/v1
+metadata:
+  name: ngnx-deamon
+  labels:
+    env: prod
+    type: deamon
+spec:
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        env: prod
+        type: pod
+    spec:
+      containers:
+        - name: ngnx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+selector:
+  matchLabels:
+    env: prod

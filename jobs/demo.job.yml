@@ -1,0 +1,21 @@
+kind: Job
+apiVersion: batch/v1
+metadata:
+  name: demo-job
+  labels:
+    env: prod
+    type: job
+spec:
+  completions: 1
+  parallelism: 1
+  backoffLimit: 4
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+        - name: demo-job
+          image: busybox:latest
+          command: ["sh", "-c", "echo Jai Shree Ram && sleep 10"]
+      restartPolicy: Never

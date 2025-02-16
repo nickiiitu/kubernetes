@@ -1,0 +1,6 @@
+Kubernetes:
+K8s architechture:
+k8s components:
+JOBS:
+Cron JOBS:
+States of containers in k8s:

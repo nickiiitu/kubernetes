@@ -1,0 +1,12 @@
+# A namespace is a virtual clustre madde to isolate resources alloted to pods of similar type.
+
+# Commands
+# kubectl create namespace dev :- creates a new namespace
+# kubectl create namespace dev :- creates a new namespace
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nginx
+  labels:
+    env: prod
