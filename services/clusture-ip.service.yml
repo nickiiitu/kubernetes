@@ -1,0 +1,67 @@
+# Kubernetes Service Configuration Example
+# ===================================
+
+# What is a Service?
+# ---------------
+# A Service is an abstract way to expose an application running on a set
+# of Pods as a network service. Kubernetes gives Pods their own IP addresses
+# and a single DNS name for a set of Pods, and can load-balance across them.
+
+# Common Use Cases for Services:
+# --------------------------
+# 1. Internal Communication: Pods communicating within the cluster
+# 2. External Access: Exposing applications to external clients
+# 3. Load Balancing: Distribute traffic across multiple pods
+# 4. Service Discovery: Find and communicate with other services
+
+# Common kubectl Commands for Service Management
+# ----------------------------------------
+# Create and List:
+#   kubectl apply -f clusture-ip.service.yml  # Create/update service
+#   kubectl get services                      # List all services
+#   kubectl get svc                           # Short form
+#
+# Service Information:
+#   kubectl describe service clusture-ip-service  # Show detailed information
+#   kubectl get service clusture-ip-service -o yaml  # Get configuration in YAML
+#
+# Service Operations:
+#   kubectl delete service clusture-ip-service    # Delete service
+#   kubectl port-forward service/clusture-ip-service 8080:80  # Port forwarding
+
+# Best Practices:
+# -------------
+# 1. Use meaningful selectors
+# 2. Choose appropriate service type
+# 3. Configure proper ports and protocols
+# 4. Set resource labels
+# 5. Consider security implications
+# 6. Plan for scaling
+
+# Service Types:
+# ------------
+# - ClusterIP: Internal cluster access only (default)
+# - NodePort: Exposes the service on each Node's IP
+# - LoadBalancer: Uses cloud provider's load balancer
+# - ExternalName: Maps service to external DNS name
+
+# Service Configuration
+# ===================
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: clusture-ip-service          # Service name
+  namespace: nginx                   # Namespace where service exists
+  labels:
+    app: nginx                       # Application identifier
+    env: prod                        # Environment label
+spec:
+  type: ClusterIP                    # Service type (internal cluster access)
+  selector:
+    app: nginx                       # Pod selector - must match pod labels
+    env: prod                        # Additional selector
+  ports:
+    - protocol: TCP                  # Network protocol
+      port: 80                       # Port exposed to cluster
+      targetPort: 80                 # Port on the pod

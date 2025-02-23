@@ -1,0 +1,58 @@
+# Kubernetes PersistentVolumeClaim Configuration Example
+# =============================================
+
+# What is a PersistentVolumeClaim (PVC)?
+# ---------------------------------
+# A PersistentVolumeClaim is a request for storage by a user/pod.
+# It's similar to a pod in that pods consume node resources and
+# PVCs consume PV resources. PVCs can request specific size and
+# access modes.
+
+# Common Use Cases for PVCs:
+# -----------------------
+# 1. Request Storage: Applications requesting specific amount of storage
+# 2. Storage Abstraction: Abstract storage details from application pods
+# 3. Dynamic Provisioning: Automatically provision storage when needed
+# 4. Storage Class Selection: Choose specific type of storage
+
+# Common kubectl Commands for PVC Management
+# -------------------------------------
+# Create and List:
+#   kubectl apply -f claim.pv.yml           # Create/update PVC
+#   kubectl get persistentvolumeclaims      # List all PVCs
+#   kubectl get pvc                         # Short form
+#
+# PVC Information:
+#   kubectl describe pvc pv-nginx-claim     # Show detailed information
+#   kubectl get pvc pv-nginx-claim -o yaml  # Get configuration in YAML
+#
+# PVC Operations:
+#   kubectl delete pvc pv-nginx-claim       # Delete PVC
+#   kubectl patch pvc pv-nginx-claim...     # Modify PVC
+
+# Best Practices:
+# -------------
+# 1. Request appropriate storage size
+# 2. Use appropriate access modes
+# 3. Set resource limits
+# 4. Use storage classes when available
+# 5. Consider namespace organization
+# 6. Plan for scaling and maintenance
+
+# PersistentVolumeClaim Configuration
+# ===============================
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pv-nginx-claim                # Name of the claim
+  namespace: nginx                    # Namespace where PVC will be created
+  labels:
+    app: pv-claim                     # Application identifier
+    env: prod                         # Environment label
+spec:
+  accessModes:
+    - ReadWriteOnce                   # Same as PV access mode
+  resources:
+    requests:
+      storage: 1Gi                    # Requested storage size

@@ -1,0 +1,58 @@
+# Kubernetes PersistentVolume Configuration Example
+# =========================================
+
+# What is a PersistentVolume (PV)?
+# -----------------------------
+# A PersistentVolume is a piece of storage in the cluster that has been
+# provisioned by an administrator or dynamically provisioned using Storage Classes.
+# It's a cluster-level resource that exists independently of any pod.
+
+# Common Use Cases for PersistentVolumes:
+# ----------------------------------
+# 1. Database Storage: Persistent storage for databases
+# 2. Shared Storage: Storage shared between multiple pods
+# 3. Stateful Applications: Storage for stateful applications
+# 4. Data Retention: Long-term data storage across pod lifecycles
+
+# Common kubectl Commands for PV Management
+# ------------------------------------
+# Create and List:
+#   kubectl apply -f persistant-volume.yml    # Create/update PV
+#   kubectl get persistentvolumes            # List all PVs
+#   kubectl get pv                           # Short form
+#
+# PV Information:
+#   kubectl describe pv pv-nginx             # Show detailed information
+#   kubectl get pv pv-nginx -o yaml          # Get configuration in YAML
+#
+# PV Operations:
+#   kubectl delete pv pv-nginx               # Delete PV
+#   kubectl patch pv pv-nginx -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' # Update reclaim policy
+
+# Best Practices:
+# -------------
+# 1. Set appropriate access modes
+# 2. Configure suitable reclaim policies
+# 3. Use storage classes for dynamic provisioning
+# 4. Set reasonable capacity limits
+# 5. Use meaningful labels
+# 6. Consider backup and disaster recovery
+
+# PersistentVolume Configuration
+# ===========================
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nginx
+  labels:
+    app: nginx    # Used for PV selection
+    env: prod     # Environment label
+spec:
+  capacity:
+    storage: 1Gi  # Storage size
+  accessModes:
+    - ReadWriteOnce  # Can be mounted read-write by a single node
+  persistentVolumeReclaimPolicy: Retain  # What happens to data when PV is released
+  hostPath:
+    path: /nikhil/data  # Path on the host machine

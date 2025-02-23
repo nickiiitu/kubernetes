@@ -61,7 +61,7 @@ metadata:
     type: deployment # Resource type label
 
 spec:
-  replicas: 3 # Number of desired pods
+  replicas: 2 # Number of desired pods
 
   selector: # Pod selector - must match template labels
     matchLabels:
