@@ -28,7 +28,7 @@
 - Usually managed by higher-level controllers
 
 ### Namespaces
-- Virtual clusters within a physical cluster
+- Virtual clustuers within a physical clustuer
 - Resource isolation and organization
 - Default namespaces: default, kube-system, kube-public
 
@@ -52,7 +52,7 @@
 
 ### DaemonSets
 - Ensures all nodes run a copy of a pod
-- Used for cluster-wide services
+- Used for clustuer-wide services
 - Examples: logging, monitoring
 
 ### StatefulSets
@@ -69,7 +69,7 @@
 
 ### Services
 - Stable network endpoint for pods
-- Types: ClusterIP, NodePort, LoadBalancer
+- Types: clustuerIP, NodePort, LoadBalancer
 - Service discovery and load balancing
 
 ### Ingress
@@ -90,7 +90,7 @@
 - Lifecycle tied to pod
 
 ### PersistentVolumes (PV)
-- Cluster-level storage resource
+- clustuer-level storage resource
 - Independent of pod lifecycle
 - Provisioned by admin or dynamically
 
@@ -114,8 +114,8 @@
 ## 8. Security
 
 ### RBAC (Role-Based Access Control)
-- Roles and ClusterRoles
-- RoleBindings and ClusterRoleBindings
+- Roles and clustuerRoles
+- RoleBindings and clustuerRoleBindings
 - Fine-grained access control
 
 ### Service Accounts
@@ -147,7 +147,7 @@
 ### Pod Disruption Budgets
 - Limit voluntary disruptions
 - Ensure high availability
-- Used during cluster maintenance
+- Used during clustuer maintenance
 
 ### Quality of Service
 - Guaranteed: Resource requests = limits

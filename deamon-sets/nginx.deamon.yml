@@ -3,13 +3,13 @@
 
 # What is a DaemonSet?
 # ------------------
-# A DaemonSet ensures that all (or some) nodes in a Kubernetes cluster run a copy of a Pod.
-# As nodes are added to the cluster, Pods are added to them.
-# As nodes are removed from the cluster, those Pods are garbage collected.
+# A DaemonSet ensures that all (or some) nodes in a Kubernetes clustuer run a copy of a Pod.
+# As nodes are added to the clustuer, Pods are added to them.
+# As nodes are removed from the clustuer, those Pods are garbage collected.
 
 # Common Use Cases for DaemonSets:
 # -----------------------------
-# 1. Running cluster storage daemons (e.g., ceph, glusterd)
+# 1. Running clustuer storage daemons (e.g., ceph, glusterd)
 # 2. Running log collection daemons (e.g., fluentd, logstash)
 # 3. Running node monitoring daemons (e.g., Prometheus Node Exporter)
 # 4. Running system daemons (e.g., kube-proxy)

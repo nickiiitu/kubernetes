@@ -97,5 +97,5 @@ spec:
 
       ports:
         - containerPort: 80 # Port the container listens on
-          # Note: This doesn't automatically expose the port outside the cluster
+          # Note: This doesn't automatically expose the port outside the clustuer
           # You'll need a Service resource to make it accessible

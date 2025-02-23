@@ -3,9 +3,9 @@
 
 # What is a PersistentVolume (PV)?
 # -----------------------------
-# A PersistentVolume is a piece of storage in the cluster that has been
+# A PersistentVolume is a piece of storage in the clustuer that has been
 # provisioned by an administrator or dynamically provisioned using Storage Classes.
-# It's a cluster-level resource that exists independently of any pod.
+# It's a clustuer-level resource that exists independently of any pod.
 
 # Common Use Cases for PersistentVolumes:
 # ----------------------------------
@@ -46,13 +46,13 @@ kind: PersistentVolume
 metadata:
   name: pv-nginx
   labels:
-    app: nginx    # Used for PV selection
-    env: prod     # Environment label
+    app: nginx # Used for PV selection
+    env: prod # Environment label
 spec:
   capacity:
-    storage: 1Gi  # Storage size
+    storage: 1Gi # Storage size
   accessModes:
-    - ReadWriteOnce  # Can be mounted read-write by a single node
-  persistentVolumeReclaimPolicy: Retain  # What happens to data when PV is released
+    - ReadWriteOnce # Can be mounted read-write by a single node
+  persistentVolumeReclaimPolicy: Retain # What happens to data when PV is released
   hostPath:
-    path: /nikhil/data  # Path on the host machine
+    path: /nikhil/data # Path on the host machine

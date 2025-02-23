@@ -18,12 +18,14 @@ This repository contains a comprehensive collection of Kubernetes configuration 
 ## Prerequisites
 
 1. Install Docker Desktop
+
    ```bash
    # For macOS (using Homebrew)
    brew install --cask docker
    ```
 
 2. Install kubectl
+
    ```bash
    # For macOS (using Homebrew)
    brew install kubectl
@@ -38,11 +40,13 @@ This repository contains a comprehensive collection of Kubernetes configuration 
 ## Setting Up Minikube
 
 1. Start Minikube
+
    ```bash
    minikube start
    ```
 
 2. Verify Installation
+
    ```bash
    kubectl version
    minikube status
@@ -57,14 +61,18 @@ This repository contains a comprehensive collection of Kubernetes configuration 
 ## Learning Path
 
 ### 1. Start with Core Concepts
+
 1. Read through `concepts.txt` to understand Kubernetes fundamentals
 2. Study the architecture and components
 3. Understand the relationship between different resources
 
 ### 2. Hands-on with Basic Resources
+
 1. **Pods (`pods/nginx.pod.yaml`)**
+
    - Learn basic pod configuration
    - Practice creating and managing pods
+
    ```bash
    kubectl apply -f pods/nginx.pod.yaml
    kubectl get pods
@@ -80,9 +88,12 @@ This repository contains a comprehensive collection of Kubernetes configuration 
    ```
 
 ### 3. Workload Resources
+
 1. **Deployments (`deploments/nginx.deploymnet.yaml`)**
+
    - Learn about rolling updates
    - Practice scaling applications
+
    ```bash
    kubectl apply -f deploments/nginx.deploymnet.yaml
    kubectl get deployments
@@ -90,15 +101,18 @@ This repository contains a comprehensive collection of Kubernetes configuration 
    ```
 
 2. **ReplicaSets (`replicas/nginx-set.replica.yaml`)**
+
    - Understand pod replication
    - Practice high availability
 
 3. **DaemonSets (`deamon-sets/nginx.deamon.yml`)**
    - Learn about node-level services
-   - Practice cluster-wide deployments
+   - Practice clustuer-wide deployments
 
 ### 4. Jobs and Scheduling
+
 1. **Jobs (`jobs/demo.job.yml`)**
+
    - Understand batch processing
    - Practice job management
 
@@ -107,6 +121,7 @@ This repository contains a comprehensive collection of Kubernetes configuration 
    - Practice cron expressions
 
 ### 5. Storage and State
+
 1. **Volumes (`vloumes/persistant-volume.yml`)**
    - Understand persistent storage
    - Practice volume management
@@ -123,9 +138,9 @@ This repository contains a comprehensive collection of Kubernetes configuration 
 ## Common Commands
 
 ```bash
-# Context and Cluster Info
+# Context and clustuer Info
 kubectl config get-contexts
-kubectl cluster-info
+kubectl clustuer-info
 
 # Resource Management
 kubectl get <resource>
@@ -146,19 +161,20 @@ kubectl port-forward <pod-name> 8080:80
 # Stop Minikube
 minikube stop
 
-# Delete Minikube cluster
+# Delete Minikube clustuer
 minikube delete
 ```
 
 ## Additional Resources
 
 - [Official Kubernetes Documentation](https://kubernetes.io/docs/)
-- [Kubernetes Patterns](https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/)
+- [Kubernetes Patterns](https://kubernetes.io/docs/concepts/clustuer-administration/manage-deployment/)
 - [Kubernetes Best Practices](https://kubernetes.io/docs/concepts/configuration/overview/)
 
 ## Contributing
 
 Feel free to contribute by:
+
 1. Adding new examples
 2. Improving documentation
 3. Fixing errors

@@ -9,7 +9,7 @@
 
 # Common Use Cases for Services:
 # --------------------------
-# 1. Internal Communication: Pods communicating within the cluster
+# 1. Internal Communication: Pods communicating within the clustuer
 # 2. External Access: Exposing applications to external clients
 # 3. Load Balancing: Distribute traffic across multiple pods
 # 4. Service Discovery: Find and communicate with other services
@@ -40,7 +40,7 @@
 
 # Service Types:
 # ------------
-# - ClusterIP: Internal cluster access only (default)
+# - clustuerIP: Internal clustuer access only (default)
 # - NodePort: Exposes the service on each Node's IP
 # - LoadBalancer: Uses cloud provider's load balancer
 # - ExternalName: Maps service to external DNS name
@@ -51,17 +51,17 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: clusture-ip-service          # Service name
-  namespace: nginx                   # Namespace where service exists
+  name: clusture-ip-service # Service name
+  namespace: nginx # Namespace where service exists
   labels:
-    app: nginx                       # Application identifier
-    env: prod                        # Environment label
+    app: nginx # Application identifier
+    env: prod # Environment label
 spec:
-  type: ClusterIP                    # Service type (internal cluster access)
+  type: clustuerIP # Service type (internal clustuer access)
   selector:
-    app: nginx                       # Pod selector - must match pod labels
-    env: prod                        # Additional selector
+    app: nginx # Pod selector - must match pod labels
+    env: prod # Additional selector
   ports:
-    - protocol: TCP                  # Network protocol
-      port: 80                       # Port exposed to cluster
-      targetPort: 80                 # Port on the pod
+    - protocol: TCP # Network protocol
+      port: 80 # Port exposed to clustuer
+      targetPort: 80 # Port on the pod

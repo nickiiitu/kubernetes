@@ -3,8 +3,8 @@
 
 # What is a Namespace?
 # ------------------
-# A Namespace is a virtual cluster within a Kubernetes cluster that provides scope for names
-# and allows you to divide cluster resources between multiple users, teams, or applications.
+# A Namespace is a virtual clustuer within a Kubernetes clustuer that provides scope for names
+# and allows you to divide clustuer resources between multiple users, teams, or applications.
 # It helps in organizing resources and implementing resource quotas and access controls.
 
 # Common Use Cases for Namespaces:
@@ -28,7 +28,7 @@
 # Working with Namespaces:
 #   kubectl config set-context --current --namespace=nginx  # Switch to nginx namespace
 #   kubectl api-resources --namespaced=true   # List namespaced resources
-#   kubectl api-resources --namespaced=false  # List cluster-wide resources
+#   kubectl api-resources --namespaced=false  # List clustuer-wide resources
 #
 # Resource Management:
 #   kubectl get all -n nginx                # List all resources in namespace
@@ -46,15 +46,15 @@
 # Namespace Configuration
 # =====================
 
-apiVersion: v1          # Core Kubernetes API version
-kind: Namespace         # Resource type
+apiVersion: v1 # Core Kubernetes API version
+kind: Namespace # Resource type
 
 metadata:
-  name: nginx           # Namespace name - must be unique in the cluster
-  labels:               # Labels for organization and selection
-    env: prod           # Environment label
-    team: frontend      # Team ownership label
+  name: nginx # Namespace name - must be unique in the clustuer
+  labels: # Labels for organization and selection
+    env: prod # Environment label
+    team: frontend # Team ownership label
     cost-center: cc-123 # Business context label
 
 # Note: Some Kubernetes resources are namespace-scoped (like Pods, Services)
-# while others are cluster-scoped (like Nodes, PersistentVolumes)
+# while others are clustuer-scoped (like Nodes, PersistentVolumes)
