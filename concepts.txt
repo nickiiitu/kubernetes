@@ -1,6 +1,160 @@
-Kubernetes:
-K8s architechture:
-k8s components:
-JOBS:
-Cron JOBS:
-States of containers in k8s:
+# Kubernetes Concepts Guide
+
+## 1. Kubernetes Overview
+- Container orchestration platform for automating deployment, scaling, and management
+- Originally developed by Google, now maintained by CNCF
+- Also known as K8s (K + 8 letters + s)
+
+## 2. Kubernetes Architecture
+
+### Control Plane Components (Master Node)
+- kube-apiserver: API server that exposes the Kubernetes API
+- etcd: Consistent and highly-available key-value store
+- kube-scheduler: Watches for new Pods and assigns them to nodes
+- kube-controller-manager: Runs controller processes
+- cloud-controller-manager: Integrates with cloud provider APIs
+
+### Node Components (Worker Nodes)
+- kubelet: Agent that runs on each node
+- kube-proxy: Network proxy on each node
+- Container Runtime: Software for running containers (e.g., Docker)
+
+## 3. Core Concepts
+
+### Pods
+- Smallest deployable unit in Kubernetes
+- Contains one or more containers
+- Shares network namespace and storage
+- Usually managed by higher-level controllers
+
+### Namespaces
+- Virtual clusters within a physical cluster
+- Resource isolation and organization
+- Default namespaces: default, kube-system, kube-public
+
+### Labels and Selectors
+- Key-value pairs attached to objects
+- Used for organizing and selecting subsets of objects
+- Foundation for service discovery
+
+## 4. Workload Resources
+
+### Deployments
+- Manages ReplicaSets and Pods
+- Enables declarative updates
+- Supports rolling updates and rollbacks
+- Best for stateless applications
+
+### ReplicaSets
+- Ensures specified number of pod replicas
+- Provides high availability
+- Usually managed by Deployments
+
+### DaemonSets
+- Ensures all nodes run a copy of a pod
+- Used for cluster-wide services
+- Examples: logging, monitoring
+
+### StatefulSets
+- For stateful applications
+- Provides stable network identities
+- Ordered deployment and scaling
+
+### Jobs and CronJobs
+- Jobs: Run-to-completion tasks
+- CronJobs: Scheduled Jobs
+- Useful for batch processing
+
+## 5. Services and Networking
+
+### Services
+- Stable network endpoint for pods
+- Types: ClusterIP, NodePort, LoadBalancer
+- Service discovery and load balancing
+
+### Ingress
+- HTTP/HTTPS routing to services
+- SSL termination
+- Name-based virtual hosting
+
+### Network Policies
+- Pod-level network security
+- Define allowed traffic flows
+- Require CNI support
+
+## 6. Storage
+
+### Volumes
+- Pod-level storage abstraction
+- Many types: emptyDir, hostPath, etc.
+- Lifecycle tied to pod
+
+### PersistentVolumes (PV)
+- Cluster-level storage resource
+- Independent of pod lifecycle
+- Provisioned by admin or dynamically
+
+### PersistentVolumeClaims (PVC)
+- Request for storage by user
+- Binds to PersistentVolume
+- Used by pods
+
+## 7. Configuration
+
+### ConfigMaps
+- Store non-confidential configuration
+- Key-value pairs
+- Can be used as files or environment variables
+
+### Secrets
+- Store sensitive information
+- Base64 encoded by default
+- Mounted as files or environment variables
+
+## 8. Security
+
+### RBAC (Role-Based Access Control)
+- Roles and ClusterRoles
+- RoleBindings and ClusterRoleBindings
+- Fine-grained access control
+
+### Service Accounts
+- Identity for processes in pods
+- Automated token management
+- Used for pod authentication
+
+## 9. Container States
+
+### Pod Phase
+- Pending: Pod accepted but containers not running
+- Running: Pod bound to node, all containers running
+- Succeeded: All containers terminated successfully
+- Failed: All containers terminated, at least one failed
+- Unknown: Pod state cannot be determined
+
+### Container States
+- Waiting: Not yet running (pulling image, etc.)
+- Running: Executing without issues
+- Terminated: Completed execution or failed
+
+## 10. Advanced Concepts
+
+### Horizontal Pod Autoscaling
+- Automatically scale pods
+- Based on CPU/memory usage
+- Custom metrics support
+
+### Pod Disruption Budgets
+- Limit voluntary disruptions
+- Ensure high availability
+- Used during cluster maintenance
+
+### Quality of Service
+- Guaranteed: Resource requests = limits
+- Burstable: Requests < limits
+- BestEffort: No requests or limits
+
+### Custom Resources
+- Extend Kubernetes API
+- Custom controllers
+- Operator pattern

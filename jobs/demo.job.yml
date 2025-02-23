@@ -1,21 +1,87 @@
-kind: Job
-apiVersion: batch/v1
+# Kubernetes Job Configuration Example
+# ================================
+
+# What is a Job?
+# ------------
+# A Job creates one or more Pods and ensures that a specified number of them successfully terminate.
+# Jobs are useful for running one-off tasks such as:
+# - Batch processing
+# - Data migrations
+# - One-time calculations
+# - Database operations
+
+# Common kubectl Commands for Job Management
+# --------------------------------------
+# Create and List:
+#   kubectl apply -f demo.job.yml          # Create/update job
+#   kubectl get jobs                       # List all jobs
+#   kubectl get pods -l job-name=demo-job  # List pods for job
+#
+# Job Information:
+#   kubectl describe job demo-job          # Show detailed information
+#   kubectl get job demo-job -o yaml       # Get configuration in YAML
+#
+# Job Operations:
+#   kubectl logs -l job-name=demo-job      # View job logs
+#   kubectl delete job demo-job            # Delete job
+#   kubectl get events --field-selector involvedObject.name=demo-job  # View job events
+
+# Best Practices:
+# -------------
+# 1. Set appropriate completions and parallelism
+# 2. Configure reasonable backoff limits
+# 3. Use specific image tags
+# 4. Implement proper error handling
+# 5. Set resource limits and requests
+# 6. Use appropriate restart policy
+
+# Job Configuration
+# ===============
+
+apiVersion: batch/v1 # API version for Job resource
+kind: Job # Resource type
+
 metadata:
-  name: demo-job
+  name: demo-job # Job name
   labels:
-    env: prod
-    type: job
+    env: prod # Environment label
+    type: job # Resource type label
+    app: demo # Application identifier
+
 spec:
-  completions: 1
-  parallelism: 1
-  backoffLimit: 4
+  # Job Control Parameters
+  completions: 1 # Number of successful pod completions required
+  parallelism: 1 # Number of pods that can run in parallel
+  backoffLimit: 4 # Number of retries before job is marked as failed
+
+  # Optional: Time Limits
+  activeDeadlineSeconds: 100 # Max time the job can run (in seconds)
+
   template:
     metadata:
       labels:
-        app: demo
+        app: demo # Pod labels
     spec:
+      restartPolicy: Never # Never restart failed containers
+
       containers:
         - name: demo-job
-          image: busybox:latest
-          command: ["sh", "-c", "echo Jai Shree Ram && sleep 10"]
-      restartPolicy: Never
+          image: busybox:1.35 # Specific version instead of latest
+
+          # Job Command
+          command:
+            - sh
+            - -c
+            - |
+              echo "[$(date)] Starting job..."
+              if true; then  # Replace with actual job logic
+                echo "[$(date)] Job completed successfully"
+                exit 0
+              else
+                echo "[$(date)] Job failed"
+                exit 1
+              fi
+
+# Note: Jobs are perfect for batch processing tasks that need to run to completion.
+# Unlike CronJobs, they run once and are done.
+# Use appropriate completions and parallelism settings based on your workload.

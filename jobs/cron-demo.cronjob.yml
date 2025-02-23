@@ -1,0 +1,114 @@
+# Kubernetes CronJob Configuration Example
+# ====================================
+
+# What is a CronJob?
+# ----------------
+# A CronJob creates Jobs on a repeating schedule, similar to cron in Unix-like systems.
+# It's perfect for periodic and recurring tasks such as:
+# - Backups
+# - Report generation
+# - Email sending
+# - Cleanup tasks
+
+# Cron Schedule Syntax: "* * * * *"
+# -----------------------------
+# Field order: minute (0-59) | hour (0-23) | day of month (1-31) | month (1-12) | day of week (0-6)
+# Examples:
+# "0 * * * *"    = Every hour at minute 0
+# "0 0 * * *"    = Every day at midnight
+# "0 0 * * 0"    = Every Sunday at midnight
+# "*/10 * * * *" = Every 10 minutes
+
+# Common kubectl Commands for CronJob Management
+# -----------------------------------------
+# Create and List:
+#   kubectl apply -f cron-demo.cronjob.yml     # Create/update cronjob
+#   kubectl get cronjobs                       # List all cronjobs
+#   kubectl get cj                             # Short form
+#
+# CronJob Information:
+#   kubectl describe cronjob demo-cron-job     # Show detailed information
+#   kubectl get cronjob demo-cron-job -o yaml  # Get configuration in YAML
+#
+# Job Management:
+#   kubectl get jobs                           # List jobs created by cronjob
+#   kubectl delete cronjob demo-cron-job       # Delete cronjob
+#   kubectl logs job/<job-name>                # View job logs
+
+# Best Practices:
+# -------------
+# 1. Set appropriate schedule intervals
+# 2. Define concurrency policy
+# 3. Set history limits
+# 4. Use specific image tags
+# 5. Implement proper error handling
+# 6. Consider time zones
+
+# CronJob Configuration
+# ===================
+
+apiVersion: batch/v1 # API version for CronJob resource
+kind: CronJob # Resource type
+
+metadata:
+  name: demo-cron-job # CronJob name
+  labels:
+    env: prod # Environment label
+    type: cronjob # Resource type label
+    app: backup # Application identifier
+
+spec:
+  schedule: "0 0 * * *" # Daily at midnight (change as needed)
+
+  # Job Template Configuration
+  jobTemplate:
+    spec:
+      # Pod Template
+      template:
+        metadata:
+          labels:
+            app: demo-cron-job
+        spec:
+          restartPolicy: OnFailure # What to do if job fails
+
+          containers:
+            - name: backup-container
+              image: busybox:1.35 # Specific version instead of latest
+
+              # Backup Script
+              command:
+                - sh
+                - -c
+                - |
+                  echo "[$(date)] Starting backup process..." && \
+                  mkdir -p /backups && \
+                  mkdir -p /demo-data && \
+                  if cp -r /demo-data /backups/backup-$(date +%Y%m%d-%H%M%S); then
+                    echo "[$(date)] Backup completed successfully"
+                    exit 0
+                  else
+                    echo "[$(date)] Backup failed"
+                    exit 1
+                  fi
+
+              # Volume Mounts
+              volumeMounts:
+                - name: demo-volume # Source data volume
+                  mountPath: /demo-data
+                  readOnly: true # Best practice for backups
+                - name: backup-volume # Backup destination volume
+                  mountPath: /backups
+
+          # Volume Definitions
+          volumes:
+            - name: demo-volume
+              hostPath:
+                path: /demo-data
+                type: DirectoryOrCreate
+            - name: backup-volume
+              hostPath:
+                path: /backups
+                type: DirectoryOrCreate
+# Note: This CronJob performs a backup operation.
+# It mounts two volumes: one for source data and one for backups.
+# The job runs with proper error handling and logging.

@@ -1,33 +1,101 @@
-# creation of pods using yml file
+# Kubernetes Pod Configuration Example
+# =================================
 
-# Required fields:-
+# Common kubectl Commands for Pod Management
+# ---------------------------------------
+# Create and Deploy:
+#   kubectl apply -f nginx.pod.yaml           # Create/update the pod from this file
+#   kubectl create -f nginx.pod.yaml          # Create new pod (fails if exists)
+#
+# Pod Information:
+#   kubectl get pods                          # List all pods in current namespace
+#   kubectl get pods -n nginx                 # List pods in nginx namespace
+#   kubectl describe pod nginx-pod            # Show detailed pod information
+#   kubectl get pod nginx-pod -o yaml         # Get pod configuration in YAML
+#
+# Pod Operations:
+#   kubectl logs nginx-pod                    # View pod logs
+#   kubectl logs -f nginx-pod                 # Stream pod logs
+#   kubectl exec -it nginx-pod -- /bin/bash   # Get interactive shell inside pod
+#   kubectl port-forward nginx-pod 8080:80    # Forward local port to pod port
+#
+# Pod Maintenance:
+#   kubectl delete pod nginx-pod              # Delete the pod
+#   kubectl delete -f nginx.pod.yaml          # Delete pod using this file
+#   kubectl label pod nginx-pod env=test      # Add/modify pod label
+#
+# Troubleshooting:
+#   kubectl get pod nginx-pod --watch         # Watch pod status changes
+#   kubectl describe pod nginx-pod            # Check pod events and status
+#   kubectl logs nginx-pod --previous         # View previous container logs
 
-# apiVersion:version of k8s api using to create objects (e.g. v1(for pods),apps/v1Beta etc)
+# What is a Pod?
+# -------------
+# A Pod is the smallest deployable unit in Kubernetes. It's like a wrapper around one or more containers.
+# Think of it as a logical host for containers - similar to how a physical machine or VM can run multiple processes.
 
-# kind:it can take values as follows
-# Pod->v1
-# Service->v1
-# ReplicaSet->apps/v1
-# Deployment->apps/v1
+# Key Concepts in this File:
+# ------------------------
+# 1. Pod Definition
+# 2. Container Configuration
+# 3. Networking
+# 4. Namespaces
+# 5. Labels and Metadata
 
-# metadate: it contains information about the pod like name etc, it is a dictionery,
-#           labels can have any key value pairs as needed
+# Required Fields Explanation:
+# --------------------------
 
-# spec: depending on the type of object (pod in this case) we are trying to make
-# we provide extra info in specs it is a dictionery which expects a lsit of containers
-# containerPort: specifing this creates the required networking mappings and expose this port for external traffic
+# apiVersion: Specifies which version of the Kubernetes API to use
+# - v1: Core API group, used for Pods, Services, etc.
+# - apps/v1: Used for Deployments, ReplicaSets, etc.
+# - batch/v1: Used for Jobs and CronJobs
+# - networking.k8s.io/v1: Used for NetworkPolicies
 
-apiVersion: v1
-kind: Pod
+# kind: Defines what type of Kubernetes resource we're creating
+# Common kinds include:
+# - Pod: Single instance of an application
+# - Service: Network endpoint to access pods
+# - Deployment: Manages ReplicaSets and Pod updates
+# - ReplicaSet: Ensures specified number of pod replicas are running
+
+# metadata: Contains information that uniquely identifies the Pod
+# - name: Unique name for the Pod
+# - namespace: Logical grouping of resources (like folders)
+# - labels: Key-value pairs for organizing and selecting pods
+#   Best Practice: Use meaningful labels for easier resource management
+
+# spec: Defines the desired state of the Pod
+# - containers: List of containers to run in the Pod
+# - ports: Network ports to expose
+# - volumes: Storage to be mounted (if needed)
+# Best Practice: Always specify resource limits and requests
+
+# Pod Configuration
+# ================
+
+apiVersion: v1 # Using core Kubernetes API version
+kind: Pod # Creating a Pod resource
+
+# Pod Metadata
+# -----------
 metadata:
-  name: nginx-pod
-  namespace: nginx
-  labels:
-    env: prod
-    type: pod
+  name: nginx-pod # Unique identifier for the Pod
+  namespace: nginx # Logical isolation - groups related resources
+  labels: # Key-value pairs for organizing and selecting pods
+    env: prod # Example: Label for environment
+    type: pod # Example: Label for resource type
+    app: webserver # Example: Label for application type
+
+# Pod Specification
+# ---------------
 spec:
-  containers:
-    - name: ngnx
-      image: nginx:latest #write the name of the image as in docker repo
+  containers: # List of containers in the Pod
+    - name: nginx # Container name - must be unique within the Pod
+      image: nginx:latest # Docker image to use
+      # Best Practice: Always use specific versions instead of 'latest'
+      # Example: nginx:1.25.3
+
       ports:
-        - containerPort: 80 # if we don't specify this it assumes 80 as default bcz of internal config but we will not be able to access this pod from outside cluster
+        - containerPort: 80 # Port the container listens on
+          # Note: This doesn't automatically expose the port outside the cluster
+          # You'll need a Service resource to make it accessible

@@ -1,25 +1,90 @@
-apiVersion: apps/v1
-kind: Deployment
+# Kubernetes Deployment Configuration Example
+# =======================================
+
+# What is a Deployment?
+# -------------------
+# A Deployment provides declarative updates for Pods and ReplicaSets.
+# It allows you to:
+# - Deploy a set of identical pods (replicas)
+# - Update pods and ReplicaSets declaratively
+# - Rollback to previous deployment versions
+# - Scale the application
+
+# Common Use Cases for Deployments:
+# -----------------------------
+# 1. Application Deployment: Running multiple instances of your application
+# 2. Zero-downtime Updates: Rolling updates to your application
+# 3. Scaling: Horizontal scaling of application instances
+# 4. Version Management: Managing different versions of your application
+
+# Common kubectl Commands for Deployment Management
+# --------------------------------------------
+# Create and List:
+#   kubectl apply -f nginx.deployment.yaml     # Create/update deployment
+#   kubectl get deployments                    # List all deployments
+#   kubectl get deploy                         # Short form
+#
+# Deployment Information:
+#   kubectl describe deployment nginx          # Show detailed information
+#   kubectl get deployment nginx -o yaml       # Get configuration in YAML
+#
+# Scaling:
+#   kubectl scale deployment nginx --replicas=5 # Scale to 5 replicas
+#   kubectl autoscale deployment nginx --min=2 --max=5 # Auto-scaling
+#
+# Updates and Rollbacks:
+#   kubectl rollout status deployment/nginx    # Check rollout status
+#   kubectl rollout history deployment/nginx   # View rollout history
+#   kubectl rollout undo deployment/nginx      # Rollback to previous version
+#   kubectl set image deployment/nginx nginx=nginx:1.25.3 # Update image
+
+# Best Practices:
+# -------------
+# 1. Always specify resource limits and requests
+# 2. Use rolling update strategy
+# 3. Implement readiness and liveness probes
+# 4. Use specific image tags instead of 'latest'
+# 5. Set appropriate replica count based on load
+
+# Deployment Configuration
+# =====================
+
+apiVersion: apps/v1 # API version for Deployment resource
+kind: Deployment # Resource type
+
 metadata:
-  name: ngnx-deployment
-  labels:
-    env: prod
-    type: deployment
-  namespace: nginx
+  name: nginx-deployment # Deployment name
+  namespace: nginx # Namespace where deployment will be created
+  labels: # Labels for the deployment itself
+    app: nginx # Application identifier
+    env: prod # Environment label
+    type: deployment # Resource type label
+
 spec:
-  template:
+  replicas: 3 # Number of desired pods
+
+  selector: # Pod selector - must match template labels
+    matchLabels:
+      app: nginx
+      env: prod
+
+  strategy: # Update strategy
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25% # Max pods unavailable during update
+      maxSurge: 25% # Max pods that can exceed desired count
+
+  template: # Pod template
     metadata:
-      name: nginx-pod
-      labels:
+      labels: # Labels for the pods (must match selector)
+        app: nginx
         env: prod
-        type: pod
     spec:
       containers:
         - name: nginx
-          image: nginx:latest
+          image: nginx:1.25.3 # Specific version instead of latest
           ports:
             - containerPort: 80
-  replicas: 3
-  selector:
-    matchLabels:
-      env: prod
+# Note: Deployments manage ReplicaSets, which in turn manage Pods.
+# This creates a hierarchy that enables advanced deployment strategies
+# like rolling updates and rollbacks.
